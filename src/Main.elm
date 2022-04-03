@@ -9,8 +9,8 @@ import Html.Events exposing (onClick, onInput)
 initModel : Model
 initModel =
     { message = "Welcome"
-    , firstname = ""
-    , age = 0
+    , firstname = Nothing
+    , age = Nothing
     }
 
 
@@ -32,8 +32,8 @@ type Msg
 
 type alias Model =
     { message : String
-    , firstname : String
-    , age : Int
+    , firstname : Maybe String
+    , age : Maybe Int
     }
 
 
@@ -41,11 +41,11 @@ view : Model -> Html.Html Msg
 view model =
     Html.div []
         [ Html.text model.message
-        , Html.input [ onInput MsgNewName, value model.firstname ] []
-        , Html.input [ onInput MsgNewAgeAssString, value (String.fromInt model.age) ] []
+        , Html.input [ onInput MsgNewName, value (Maybe.withDefault "" model.firstname) ] []
+        , Html.input [ onInput MsgNewAgeAssString, value (String.fromInt (Maybe.withDefault 0 model.age)) ] []
         , Html.button [ onClick MsgSurprise ] [ Html.text "Surprise" ]
         , Html.button [ onClick MsgReset ] [ Html.text "Reset" ]
-        , Html.text (String.fromInt (String.length model.firstname))
+        , Html.text (String.fromInt (String.length (Maybe.withDefault "" model.firstname)))
         ]
 
 
@@ -53,27 +53,47 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         MsgSurprise ->
-            { model
-                | message = "Happy Birthday " ++ model.firstname ++ " with " ++ String.fromInt model.age ++ "years !!"
-            }
+            case model.age of
+                Just anAge ->
+                    case model.firstname of
+                        Just aName ->
+                            { model
+                                | message = "Happy Birthday " ++ aName ++ " with " ++ String.fromInt anAge ++ "years old !!"
+                            }
+
+                        Nothing ->
+                            { model
+                                | message = "First name is required"
+                            }
+
+                Nothing ->
+                    { model
+                        | message = "Age is required"
+                    }
 
         MsgReset ->
             initModel
 
         MsgNewName newName ->
-            { model
-                | firstname = newName
-            }
+            if String.trim newName == "" then
+                { model
+                    | firstname = Nothing
+                }
+
+            else
+                { model
+                    | firstname = Just newName
+                }
 
         MsgNewAgeAssString newValue ->
             case String.toInt newValue of
                 Just anInt ->
                     { model
-                        | age = anInt
+                        | age = Just anInt
                     }
 
                 Nothing ->
                     { model
                         | message = "The Age is wrong"
-                        , age = 0
+                        , age = Nothing
                     }
