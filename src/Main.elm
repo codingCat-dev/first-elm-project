@@ -6,12 +6,17 @@ import Html.Attributes exposing (value)
 import Html.Events exposing (onClick, onInput)
 
 
+initModel : Model
+initModel =
+    { message = "Welcome"
+    , firstname = ""
+    }
+
+
+main : Program () Model Msg
 main =
     Browser.sandbox
-        { init =
-            { message = "Welcome"
-            , firstname = ""
-            }
+        { init = initModel
         , view = view
         , update = update
         }
@@ -29,6 +34,7 @@ type alias Model =
     }
 
 
+view : Model -> Html.Html Msg
 view model =
     Html.div []
         [ Html.text model.message
@@ -38,19 +44,18 @@ view model =
         ]
 
 
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         MsgSurprise ->
-            { message = "Happy Birthday " ++ model.firstname ++ " !!"
-            , firstname = model.firstname
+            { model
+                | message = "Happy Birthday " ++ model.firstname ++ " !!"
             }
 
         MsgReset ->
-            { message = "Welcome "
-            , firstname = ""
-            }
+            initModel
 
         MsgNewName newName ->
-            { message = model.message
-            , firstname = newName
+            { model
+                | firstname = newName
             }

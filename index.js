@@ -4938,6 +4938,7 @@ function _Browser_load(url)
 		}
 	}));
 }
+var $author$project$Main$initModel = {firstname: '', message: 'Welcome'};
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
@@ -10559,12 +10560,16 @@ var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 'MsgSurprise':
-				return {firstname: model.firstname, message: 'Happy Birthday ' + (model.firstname + ' !!')};
+				return _Utils_update(
+					model,
+					{message: 'Happy Birthday ' + (model.firstname + ' !!')});
 			case 'MsgReset':
-				return {firstname: '', message: 'Welcome '};
+				return $author$project$Main$initModel;
 			default:
 				var newName = msg.a;
-				return {firstname: newName, message: model.message};
+				return _Utils_update(
+					model,
+					{firstname: newName});
 		}
 	});
 var $author$project$Main$MsgNewName = function (a) {
@@ -10610,10 +10615,6 @@ var $author$project$Main$view = function (model) {
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$sandbox(
-	{
-		init: {firstname: '', message: 'Welcome'},
-		update: $author$project$Main$update,
-		view: $author$project$Main$view
-	});
+	{init: $author$project$Main$initModel, update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"Main.Msg","aliases":{},"unions":{"Main.Msg":{"args":[],"tags":{"MsgSurprise":[],"MsgReset":[],"MsgNewName":["String.String"]}},"String.String":{"args":[],"tags":{"String":[]}}}}})}});}(this));
