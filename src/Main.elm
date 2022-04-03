@@ -2,12 +2,16 @@ module Main exposing (..)
 
 import Browser
 import Html
-import Html.Events exposing (onClick)
+import Html.Attributes exposing (value)
+import Html.Events exposing (onClick, onInput)
 
 
 main =
     Browser.sandbox
-        { init = "Welcome to the browser!"
+        { init =
+            { message = "Welcome"
+            , firstname = ""
+            }
         , view = view
         , update = update
         }
@@ -16,20 +20,37 @@ main =
 type Msg
     = MsgSurprise
     | MsgReset
+    | MsgNewName String
 
 
-view data =
+type alias Model =
+    { message : String
+    , firstname : String
+    }
+
+
+view model =
     Html.div []
-        [ Html.text data
+        [ Html.text model.message
+        , Html.input [ onInput MsgNewName, value model.firstname ] []
         , Html.button [ onClick MsgSurprise ] [ Html.text "Surprise" ]
         , Html.button [ onClick MsgReset ] [ Html.text "Reset" ]
         ]
 
 
-update msg data =
+update msg model =
     case msg of
         MsgSurprise ->
-            "Surprise"
+            { message = "Happy Birthday " ++ model.firstname ++ " !!"
+            , firstname = model.firstname
+            }
 
         MsgReset ->
-            "Reseting"
+            { message = "Welcome "
+            , firstname = ""
+            }
+
+        MsgNewName newName ->
+            { message = model.message
+            , firstname = newName
+            }
