@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Html
+import Html.Events exposing (onClick)
 
 
 main =
@@ -12,9 +13,23 @@ main =
         }
 
 
+type Msg
+    = MsgSurprise
+    | MsgReset
+
+
 view data =
-    Html.text data
+    Html.div []
+        [ Html.text data
+        , Html.button [ onClick MsgSurprise ] [ Html.text "Surprise" ]
+        , Html.button [ onClick MsgReset ] [ Html.text "Reset" ]
+        ]
 
 
 update msg data =
-    "Testing"
+    case msg of
+        MsgSurprise ->
+            "Surprise"
+
+        MsgReset ->
+            "Reseting"

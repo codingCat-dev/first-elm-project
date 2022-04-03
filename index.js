@@ -5167,12 +5167,63 @@ var $elm$browser$Browser$sandbox = function (impl) {
 };
 var $author$project$Main$update = F2(
 	function (msg, data) {
-		return 'Testing';
+		if (msg.$ === 'MsgSurprise') {
+			return 'Surprise';
+		} else {
+			return 'Reseting';
+		}
 	});
+var $author$project$Main$MsgReset = {$: 'MsgReset'};
+var $author$project$Main$MsgSurprise = {$: 'MsgSurprise'};
+var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 'Normal', a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$view = function (data) {
-	return $elm$html$Html$text(data);
+	return A2(
+		$elm$html$Html$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				$elm$html$Html$text(data),
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick($author$project$Main$MsgSurprise)
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Surprise')
+					])),
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick($author$project$Main$MsgReset)
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Reset')
+					]))
+			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$sandbox(
 	{init: 'Welcome to the browser!', update: $author$project$Main$update, view: $author$project$Main$view});
