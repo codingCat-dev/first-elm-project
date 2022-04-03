@@ -10,6 +10,7 @@ initModel : Model
 initModel =
     { message = "Welcome"
     , firstname = ""
+    , age = 0
     }
 
 
@@ -26,11 +27,13 @@ type Msg
     = MsgSurprise
     | MsgReset
     | MsgNewName String
+    | MsgNewAgeAssString String
 
 
 type alias Model =
     { message : String
     , firstname : String
+    , age : Int
     }
 
 
@@ -39,8 +42,10 @@ view model =
     Html.div []
         [ Html.text model.message
         , Html.input [ onInput MsgNewName, value model.firstname ] []
+        , Html.input [ onInput MsgNewAgeAssString, value (String.fromInt model.age) ] []
         , Html.button [ onClick MsgSurprise ] [ Html.text "Surprise" ]
         , Html.button [ onClick MsgReset ] [ Html.text "Reset" ]
+        , Html.text (String.fromInt (String.length model.firstname))
         ]
 
 
@@ -49,7 +54,7 @@ update msg model =
     case msg of
         MsgSurprise ->
             { model
-                | message = "Happy Birthday " ++ model.firstname ++ " !!"
+                | message = "Happy Birthday " ++ model.firstname ++ " with " ++ String.fromInt model.age ++ "years !!"
             }
 
         MsgReset ->
@@ -59,3 +64,16 @@ update msg model =
             { model
                 | firstname = newName
             }
+
+        MsgNewAgeAssString newValue ->
+            case String.toInt newValue of
+                Just anInt ->
+                    { model
+                        | age = anInt
+                    }
+
+                Nothing ->
+                    { model
+                        | message = "The Age is wrong"
+                        , age = 0
+                    }
