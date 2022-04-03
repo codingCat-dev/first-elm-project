@@ -1,14 +1,20 @@
 module Main exposing (..)
+
 import Browser
-import Html exposing (Html)
+import Html
 
-main = 
-    Browser.sandbox 
-    { init = ""
-     ,view = view,
-    ,update = update
- }
 
-view data = 
-    Html.text data 
-    
+main =
+    Browser.sandbox
+        { init = "Welcome to the browser!"
+        , view = view
+        , update = update
+        }
+
+
+view data =
+    Html.text data
+
+
+update msg data =
+    "Testing"
