@@ -10613,61 +10613,75 @@ var $author$project$Main$update = F2(
 var $author$project$Main$MsgNewAgeAssString = function (a) {
 	return {$: 'MsgNewAgeAssString', a: a};
 };
+var $author$project$Main$viewAgeInput = function (age) {
+	return A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Events$onInput($author$project$Main$MsgNewAgeAssString),
+				$elm$html$Html$Attributes$value(
+				$elm$core$String$fromInt(
+					A2($elm$core$Maybe$withDefault, 0, age)))
+			]),
+		_List_Nil);
+};
 var $author$project$Main$MsgNewName = function (a) {
 	return {$: 'MsgNewName', a: a};
 };
+var $author$project$Main$viewFirstNameInput = function (firstname) {
+	return A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Events$onInput($author$project$Main$MsgNewName),
+				$elm$html$Html$Attributes$value(
+				A2($elm$core$Maybe$withDefault, '', firstname))
+			]),
+		_List_Nil);
+};
+var $author$project$Main$viewLength = function (firstname) {
+	return $elm$html$Html$text(
+		$elm$core$String$fromInt(
+			$elm$core$String$length(
+				A2($elm$core$Maybe$withDefault, '', firstname))));
+};
+var $author$project$Main$viewMessage = function (message) {
+	return $elm$html$Html$text(message);
+};
 var $author$project$Main$MsgReset = {$: 'MsgReset'};
+var $author$project$Main$viewResetButton = A2(
+	$elm$html$Html$button,
+	_List_fromArray(
+		[
+			$elm$html$Html$Events$onClick($author$project$Main$MsgReset)
+		]),
+	_List_fromArray(
+		[
+			$elm$html$Html$text('Reset')
+		]));
 var $author$project$Main$MsgSurprise = {$: 'MsgSurprise'};
+var $author$project$Main$viewSurpriseButton = A2(
+	$elm$html$Html$button,
+	_List_fromArray(
+		[
+			$elm$html$Html$Events$onClick($author$project$Main$MsgSurprise)
+		]),
+	_List_fromArray(
+		[
+			$elm$html$Html$text('Surprise')
+		]));
 var $author$project$Main$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
 		_List_Nil,
 		_List_fromArray(
 			[
-				$elm$html$Html$text(model.message),
-				A2(
-				$elm$html$Html$input,
-				_List_fromArray(
-					[
-						$elm$html$Html$Events$onInput($author$project$Main$MsgNewName),
-						$elm$html$Html$Attributes$value(
-						A2($elm$core$Maybe$withDefault, '', model.firstname))
-					]),
-				_List_Nil),
-				A2(
-				$elm$html$Html$input,
-				_List_fromArray(
-					[
-						$elm$html$Html$Events$onInput($author$project$Main$MsgNewAgeAssString),
-						$elm$html$Html$Attributes$value(
-						$elm$core$String$fromInt(
-							A2($elm$core$Maybe$withDefault, 0, model.age)))
-					]),
-				_List_Nil),
-				A2(
-				$elm$html$Html$button,
-				_List_fromArray(
-					[
-						$elm$html$Html$Events$onClick($author$project$Main$MsgSurprise)
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text('Surprise')
-					])),
-				A2(
-				$elm$html$Html$button,
-				_List_fromArray(
-					[
-						$elm$html$Html$Events$onClick($author$project$Main$MsgReset)
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text('Reset')
-					])),
-				$elm$html$Html$text(
-				$elm$core$String$fromInt(
-					$elm$core$String$length(
-						A2($elm$core$Maybe$withDefault, '', model.firstname))))
+				$author$project$Main$viewMessage(model.message),
+				$author$project$Main$viewFirstNameInput(model.firstname),
+				$author$project$Main$viewLength(model.firstname),
+				$author$project$Main$viewAgeInput(model.age),
+				$author$project$Main$viewSurpriseButton,
+				$author$project$Main$viewResetButton
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$sandbox(

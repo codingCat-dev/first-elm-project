@@ -40,13 +40,43 @@ type alias Model =
 view : Model -> Html.Html Msg
 view model =
     Html.div []
-        [ Html.text model.message
-        , Html.input [ onInput MsgNewName, value (Maybe.withDefault "" model.firstname) ] []
-        , Html.input [ onInput MsgNewAgeAssString, value (String.fromInt (Maybe.withDefault 0 model.age)) ] []
-        , Html.button [ onClick MsgSurprise ] [ Html.text "Surprise" ]
-        , Html.button [ onClick MsgReset ] [ Html.text "Reset" ]
-        , Html.text (String.fromInt (String.length (Maybe.withDefault "" model.firstname)))
+        [ viewMessage model.message
+        , viewFirstNameInput model.firstname
+        , viewLength model.firstname
+        , viewAgeInput model.age
+        , viewSurpriseButton
+        , viewResetButton
         ]
+
+
+viewMessage : String -> Html.Html Msg
+viewMessage message =
+    Html.text message
+
+
+viewFirstNameInput : Maybe String -> Html.Html Msg
+viewFirstNameInput firstname =
+    Html.input [ onInput MsgNewName, value (Maybe.withDefault "" firstname) ] []
+
+
+viewAgeInput : Maybe Int -> Html.Html Msg
+viewAgeInput age =
+    Html.input [ onInput MsgNewAgeAssString, value (String.fromInt (Maybe.withDefault 0 age)) ] []
+
+
+viewSurpriseButton : Html.Html Msg
+viewSurpriseButton =
+    Html.button [ onClick MsgSurprise ] [ Html.text "Surprise" ]
+
+
+viewResetButton : Html.Html Msg
+viewResetButton =
+    Html.button [ onClick MsgReset ] [ Html.text "Reset" ]
+
+
+viewLength : Maybe String -> Html.Html Msg
+viewLength firstname =
+    Html.text (String.fromInt (String.length (Maybe.withDefault "" firstname)))
 
 
 update : Msg -> Model -> Model
